@@ -1,4 +1,5 @@
 import { kafka } from '../config/kafka.config.js';
+import { saveMessage } from '../controllers/message.controller.js';
 
 
 let producer = null;
@@ -14,12 +15,17 @@ export async function createProducer() {
 
 export async function produceMessage(data) {
     const producer = await createProducer();
+    const messageValue = JSON.stringify(data);
     await producer.send({
         topic: "MESSAGES",
-        messages: [data],
+        messages: [
+            {
+                value: messageValue,
+            },
+        ],
     });
     return true;
-  }
+}
 
 export async function startMessageConsumer() {
     console.log("Consumer is running..");
@@ -33,7 +39,8 @@ export async function startMessageConsumer() {
         if (!message.value) return;
         console.log(`New Message Recv..`);
         try {
-            console.log("all ok")
+            console.log("all ok",message.value?.toString());
+            saveMessage(message.value?.toString())
         } catch (err) {
             console.log("Something is wrong");
             pause();

@@ -5,7 +5,7 @@ import { Container, Typography, TextField, Button, Stack, Paper } from "@mui/mat
 import "./App.css";
 
 const App = () => {
-  const socket = useMemo(() => io("http://localhost:5000"), []);
+  const socket = useMemo(() => io("http://localhost:9000"), []);
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);

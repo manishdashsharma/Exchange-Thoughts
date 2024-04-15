@@ -11,7 +11,7 @@ export async function createTopicByAdmin() {
       topics: [
         {
           topic: "MESSAGE",
-          numPartitions: 1,
+          numPartitions: 2,
         },
       ],
     });

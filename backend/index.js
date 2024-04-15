@@ -5,13 +5,15 @@ import http from "http";
 import { Server } from 'socket.io';
 import config from "./src/config/index.js";
 import { startMessageConsumer } from "./src/utils/kafka.js"
+import { produceMessage } from "./src/utils/kafka.js"
+import { connectToDb } from "./src/config/db.js";
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
-// startMessageConsumer();
+startMessageConsumer();
 
 const server = http.createServer(app);
 
@@ -48,4 +50,8 @@ const onListening = () => {
     console.log(`Listening on port ${config.PORT}`);
 };
 
-server.listen(config.PORT, onListening);
+connectToDb().then(()=>{
+    server.listen(config.PORT, onListening);
+}).catch((error) => {
+    return { error: 'Failed to connect to DB' }
+});
