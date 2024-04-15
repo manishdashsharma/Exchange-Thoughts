@@ -1,6 +1,11 @@
-import { kafka } from "../config/kafka.config.js";
+import { Kafka } from "kafkajs"
+import config from "../config/index.js";
 
 export async function createTopicByAdmin() {
+  const kafka = new Kafka({
+    clientId: "chat",
+    brokers: [config.IP]
+  })
     const admin = kafka.admin();
     console.log("Admin connecting...");
     admin.connect();
@@ -20,5 +25,5 @@ export async function createTopicByAdmin() {
     console.log("Disconnecting Admin..");
     await admin.disconnect();
   }
-  
-  createTopicByAdmin();
+
+  // createTopicByAdmin();

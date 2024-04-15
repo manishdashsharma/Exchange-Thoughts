@@ -17,7 +17,7 @@ export async function produceMessage(data) {
     const producer = await createProducer();
     const messageValue = JSON.stringify(data);
     await producer.send({
-        topic: "MESSAGES",
+        topic: "MESSAGE",
         messages: [
             {
                 value: messageValue,
@@ -31,7 +31,7 @@ export async function startMessageConsumer() {
     console.log("Consumer is running..");
     const consumer = kafka.consumer({ groupId: "default" });
     await consumer.connect();
-    await consumer.subscribe({ topic: "MESSAGES", fromBeginning: true });
+    await consumer.subscribe({ topic: "MESSAGE", fromBeginning: true });
 
     await consumer.run({
         autoCommit: true,
@@ -40,12 +40,12 @@ export async function startMessageConsumer() {
         console.log(`New Message Recv..`);
         try {
             console.log("all ok",message.value?.toString());
-            saveMessage(message.value?.toString())
+            saveMessage(JSON.parse(message.value?.toString()))
         } catch (err) {
             console.log("Something is wrong");
             pause();
             setTimeout(() => {
-            consumer.resume([{ topic: "MESSAGES" }]);
+            consumer.resume([{ topic: "MESSAGE" }]);
             }, 60 * 1000);
         }
         },

@@ -7,12 +7,14 @@ import config from "./src/config/index.js";
 import { startMessageConsumer } from "./src/utils/kafka.js"
 import { produceMessage } from "./src/utils/kafka.js"
 import { connectToDb } from "./src/config/db.js";
+import { createTopicByAdmin } from "./src/utils/admin.kafka.js"
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
+createTopicByAdmin();
 startMessageConsumer();
 
 const server = http.createServer(app);
@@ -36,6 +38,11 @@ io.on('connection', (socket) => {
         await produceMessage(dataToSave);
         console.log("Message Produced to Kafka Broker");
     });
+
+    socket.on('on-typing', data => {
+        socket.broadcast.emit('activity', data)
+    })
+
     socket.on('disconnect', () => {
         console.log(`User disconnected ${socket.id}`);
     });

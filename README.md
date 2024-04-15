@@ -16,14 +16,9 @@ A real-time chat application built with Node.js, React.js, Kafka, and MongoDB. S
 
 3. Create a `.env` file in the backend directory:
     ```env
-    PORT=5000
+    PORT=9000
     IP=<YOUR_PRIVATE_IP>:9092
-    ```
-
-4. Create a Kafka Topic using admin:
-    ```bash
-    cd utils/
-    node admin.kafka.js
+    MONGO_DB_URI=<YOUR_MONGO_DB_URI>
     ```
 
 5. Start Zookeeper Container and expose PORT `2181`:
@@ -34,8 +29,8 @@ A real-time chat application built with Node.js, React.js, Kafka, and MongoDB. S
 6. Start Kafka Container, expose PORT `9092` and set ENV variables:
     ```bash
     docker run -p 9092:9092 \
-    -e KAFKA_ZOOKEEPER_CONNECT=192.168.0.100:2181 \
-    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.0.100:9092 \
+    -e KAFKA_ZOOKEEPER_CONNECT=<YOUR_PRIVATE_IP>:2181 \
+    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<YOUR_PRIVATE_IP>:9092 \
     -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
     confluentinc/cp-kafka
     ```
