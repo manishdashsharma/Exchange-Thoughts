@@ -1,6 +1,3 @@
-Certainly! Here's a revised version of the setup instructions based on your provided information:
-
----
 
 ### Exchange Thought: A Real-Time Chat Application
 
