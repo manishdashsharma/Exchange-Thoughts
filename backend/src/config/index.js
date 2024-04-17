@@ -7,5 +7,5 @@ const config = {
     IP: process.env.IP,
     MONGO_DB_URI : process.env.MONGO_DB_URI
 }
-
+console.log(config.PORT);
 export default config

@@ -19,6 +19,13 @@ startMessageConsumer();
 
 const server = http.createServer(app);
 
+app.use("/", (req, res) => {
+    return res
+    .status(200)
+    .json({ 
+        success: true,
+        message: "Backend services are running fine" });
+})
 const io = new Server(server, {
     cors: {
         origin: "*",

@@ -1,0 +1,41 @@
+version: '3'
+services:
+  zookeeper:
+    image: 'zookeeper'
+    ports:
+      - '2181:2181'
+  kafka:
+    image: 'confluentinc/cp-kafka'
+    ports:
+      - '9092:9092'
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: ${ZOOKEEPER_HOST}:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_HOST}:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+  mongo:
+    image: 'mongo'
+    ports:
+      - '27017:27017'
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - kafka
+      - mongo
+  frontend:
+    build: ./frontend
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - backend

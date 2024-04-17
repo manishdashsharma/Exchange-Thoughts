@@ -1,53 +1,72 @@
-### Exchange Thought: 
-A real-time chat application built with Node.js, React.js, Kafka, and MongoDB. Scalable and efficient messaging platform for seamless communication.
+Certainly! Here's a revised version of the setup instructions based on your provided information:
 
-## Setup the application
+---
+
+### Exchange Thought: A Real-Time Chat Application
+
+Exchange Thought is a real-time chat application designed to offer seamless and efficient communication. Leveraging technologies like Node.js, React.js, Kafka, and MongoDB, it provides a scalable platform for instant messaging.
+
+---
+
+## Setup Instructions
+
+Follow these steps to set up the Exchange Thought application on your local machine:
+
+### Environment Configuration
+
+1. **Create a `.env` File for Application**
+
+    At the root directory of the project, create a `.env` file with the following content:
+    ```env
+    ZOOKEEPER_HOST=<YOUR_PRIVATE_IP>
+    KAFKA_HOST=<YOUR_PRIVATE_IP>
+    ```
 
 ### Backend Setup
-1. Navigate to the backend directory:
+
+1. **Navigate to Backend Directory**
+
+    Change your directory to the `backend` folder:
     ```bash
     cd backend
     ```
 
-2. Install backend dependencies:
-    ```bash
-    npm install
-    ```
+2. **Create a `.env` File for Backend**
 
-3. Create a `.env` file in the backend directory:
+    Inside the `backend` directory, create a `.env` file with the following content:
     ```env
     PORT=9000
-    IP=<YOUR_PRIVATE_IP>:9092
-    MONGO_DB_URI=<YOUR_MONGO_DB_URI>
+    IP = <YOUR_PRIVATE_IP>:9092
+    MONGO_DB_URI=mongodb://mongo:27017/<YOUR_DATABASE_NAME>
     ```
 
-5. Start Zookeeper Container and expose PORT `2181`:
+3. **Run Docker Compose**
+
+    Execute the following command in the terminal to start the application using Docker Compose:
     ```bash
-    docker run -p 2181:2181 zookeeper
+    docker compose up 
     ```
 
-6. Start Kafka Container, expose PORT `9092` and set ENV variables:
+### Additional Commands
+
+- **Stop the Containers**
     ```bash
-    docker run -p 9092:9092 \
-    -e KAFKA_ZOOKEEPER_CONNECT=<YOUR_PRIVATE_IP>:2181 \
-    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<YOUR_PRIVATE_IP>:9092 \
-    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
-    confluentinc/cp-kafka
+    docker compose down
     ```
 
-### Frontend Setup
-1. Navigate to the frontend directory:
+- **Check Container Logs**
     ```bash
-    cd ../frontend
+    docker logs <container_name> -f
     ```
 
-2. Install frontend dependencies:
-    ```bash
-    npm install
-    ```
+---
 
-3. Run the development server:
-    ```bash
-    npm run dev
-    ```
-This will start the frontend server, allowing you to access the Exchange Thought application in your browser.
+### Accessing the Application
+
+- **Backend Health Check**: Visit [Backend](http://localhost:9000/) to ensure that the backend server is running correctly.
+
+- **Frontend Access**: The frontend of the Exchange Thought application is accessible at [Frontend](http://localhost:5173/).
+
+---
+
+You're now ready to explore the Exchange Thought application and experience its seamless messaging capabilities!

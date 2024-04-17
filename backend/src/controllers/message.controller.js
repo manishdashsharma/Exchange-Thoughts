@@ -2,7 +2,6 @@ import Message from '../models/message.schema.js';
 
 export async function saveMessage(data) {
     try {
-        console.log("here is the id",data.id);
         const message = await Message.create({
             userId: data.id,
             message: data.message

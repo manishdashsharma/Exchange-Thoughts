@@ -39,7 +39,6 @@ export async function startMessageConsumer() {
         if (!message.value) return;
         console.log(`New Message Recv..`);
         try {
-            console.log("all ok",message.value?.toString());
             saveMessage(JSON.parse(message.value?.toString()))
         } catch (err) {
             console.log("Something is wrong");
